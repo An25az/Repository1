@@ -7,7 +7,7 @@ using System.Web.UI;
 public partial class Reports : Page
 {
     // Connection string
-    string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+    string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -56,7 +56,7 @@ public partial class Reports : Page
         {
             reportContent.Append("<tr>");
             reportContent.Append($"<td>{row["TeamID"]}</td>");
-            reportContent.Append($"<td>{row["MemberName"]}</td>");
+            //reportContent.Append($"<td>{row["MemberName"]}</td>");
             reportContent.Append($"<td>{row["LeaderName"]}</td>");
             reportContent.Append($"<td>{row["EventName"]}</td>");
             reportContent.Append("</tr>");
@@ -105,7 +105,7 @@ public partial class Reports : Page
 
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
-            string query = "SELECT TeamID, MemberName, LeaderName, EventName FROM Team";
+            string query = "SELECT TeamID, LeaderName, EventName FROM Team";
             SqlCommand command = new SqlCommand(query, connection);
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             adapter.Fill(teamData);

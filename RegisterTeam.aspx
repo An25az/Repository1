@@ -71,11 +71,10 @@
                 </asp:Panel>
                 
                 <!-- Buttons -->
-                <asp:Button ID="btnAddMember" runat="server" Text="Add Member" OnClick="btnAddMember_Click" CssClass="btn" />
                 <asp:Button ID="btnConfirmRegistration" runat="server" Text="Confirm Registration" OnClick="btnConfirmRegistration_Click" CssClass="btn" />
-                <asp:Button ID="btnBack" runat="server" Text="Back" OnClick="btnBack_Click" CssClass="btn" />
+
             </asp:Panel>
-            
+            <asp:Button ID="btnBack" runat="server" Text="Back" OnClick="btnBack_Click" CssClass="btn" />
             <!-- Error message -->
             <asp:Label ID="lblError" runat="server" CssClass="error-message" Visible="false"></asp:Label>
         </div>

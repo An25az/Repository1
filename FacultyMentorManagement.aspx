@@ -103,7 +103,8 @@
 <label for="txtNewPassword">Password:</label>
 <asp:TextBox ID="txtNewPassword" runat="server" TextMode="Password" CssClass="form-control"></asp:TextBox>
 <br />
-<asp:Button ID="btnAdd" runat="server" Text="Add Faculty Mentor" OnClick="btnAdd_Click" CssClass="btn" />
+<asp:Button ID="btnAdd" runat="server" Text="Add Faculty Mentor" OnClick="btnAdd_Click" CssClass="btn" Width="243px" />
+<asp:Button ID="btnBack" runat="server" Text="Back" OnClick="btnBack_Click" CssClass="btn" />
 </div>
 </div>
 </form>

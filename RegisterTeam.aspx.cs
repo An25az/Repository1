@@ -23,7 +23,7 @@ public partial class RegisterTeam : System.Web.UI.Page
     {
         try
         {
-            string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
             string query = "SELECT EventName FROM Events";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -82,7 +82,7 @@ public partial class RegisterTeam : System.Web.UI.Page
     {
         try
         {
-            string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
             string query = "SELECT MembersPerTeam FROM Events WHERE EventName = @EventName";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -122,24 +122,20 @@ public partial class RegisterTeam : System.Web.UI.Page
         }
     }
 
-    protected void btnAddMember_Click(object sender, EventArgs e)
-    {
-        // Add member button clicked, no action needed here
-    }
-
     protected void btnConfirmRegistration_Click(object sender, EventArgs e)
     {
         try
         {
-            string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 // Insert team details into the Team table
-                string insertTeamQuery = "INSERT INTO Team (LeaderName, EventName, Type) VALUES (@LeaderName, @EventName, @Type); SELECT SCOPE_IDENTITY();";
+                string insertTeamQuery = "INSERT INTO Team (LeaderName, EventName, Type, TeamName) VALUES (@LeaderName, @EventName, @Type, @TeamName); SELECT SCOPE_IDENTITY();";
                 SqlCommand insertTeamCommand = new SqlCommand(insertTeamQuery, connection);
                 insertTeamCommand.Parameters.AddWithValue("@LeaderName", txtLeaderName.Text);
                 insertTeamCommand.Parameters.AddWithValue("@EventName", ddlEvents.SelectedValue);
+                insertTeamCommand.Parameters.AddWithValue("@TeamName", txtTeamName.Text);
                 insertTeamCommand.Parameters.AddWithValue("@Type", "Fast"); // Default value is "Fast"
                 object teamIdObj = insertTeamCommand.ExecuteScalar();
                 int teamId = Convert.ToInt32(teamIdObj);
@@ -171,6 +167,62 @@ public partial class RegisterTeam : System.Web.UI.Page
 
     protected void btnBack_Click(object sender, EventArgs e)
     {
-        Response.Redirect("~/UserDashboard.aspx?username=" + Request.QueryString["username"]);
+        // Retrieve the current user's type from the [User] table using the provided UserName
+        string currentUserType = "";
+        string userName = Session["username"] as string;
+
+        if (!string.IsNullOrEmpty(userName))
+        {
+            // Connection string to your database
+            string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
+
+            // SQL query to retrieve the user's type based on the provided UserName
+            string query = "SELECT Type FROM [User] WHERE UserName = @UserName";
+
+            // Establish connection and execute the query
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Add parameter for UserName
+                    command.Parameters.AddWithValue("@UserName", userName);
+
+                    try
+                    {
+                        connection.Open();
+                        // Execute the query
+                        object result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            currentUserType = result.ToString();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle any exceptions, such as database connection error
+                        // Log the exception or display an error message
+                    }
+                }
+            }
+
+            // Check the user's type and redirect accordingly
+            if (currentUserType == "Student")
+            {
+                // Redirect to the user dashboard page
+                Response.Redirect("~/UserDashboard.aspx?username=" + userName);
+            }
+            else
+            {
+                // Redirect to the admin dashboard page
+                Response.Redirect("~/AdminDashboard.aspx");
+            }
+        }
+        else
+        {
+            // Handle case where username is not available
+            // Redirect to some error page or take appropriate action
+        }
     }
+
+
 }

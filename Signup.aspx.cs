@@ -55,7 +55,7 @@ public partial class _Default : System.Web.UI.Page
         string type = Type.SelectedValue;
 
         // Create connection and command objects
-        using (SqlConnection con = new SqlConnection("Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True"))
+        using (SqlConnection con = new SqlConnection("Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True"))
         {
             con.Open();
 

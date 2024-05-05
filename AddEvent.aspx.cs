@@ -18,7 +18,7 @@ public partial class AddEvents : System.Web.UI.Page
         int membersPerTeam = Convert.ToInt32(txtMembersPerTeam.Text);
 
 
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
         string query = "INSERT INTO Events (EventName, Price, MinTeamCount, MaxTeamCount, [Time], MembersPerTeam) VALUES (@EventName, @Price, @MinTeamCount, @MaxTeamCount, @Time, @MembersPerTeam)";
 
 

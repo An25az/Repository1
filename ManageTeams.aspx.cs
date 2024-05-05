@@ -158,63 +158,63 @@ public partial class ManageTeams : System.Web.UI.Page
         }
     }
 
-    protected void AddMemberButton_Click(object sender, EventArgs e)
-    {
-        string selectedTeamID = TeamListBox.SelectedValue;
-        string memberName = MemberTextBox.Text.Trim();
+    //protected void AddMemberButton_Click(object sender, EventArgs e)
+    //{
+    //    string selectedTeamID = TeamListBox.SelectedValue;
+    //    string memberName = MemberTextBox.Text.Trim();
 
-        // Check constraints before deleting member
-        string errorMessage = CheckConstraints(selectedTeamID, memberName);
-        if (!string.IsNullOrEmpty(errorMessage))
-        {
-            // Display the error message
-            Errors.Text = errorMessage;
-            return;
-        }
+    //    // Check constraints before deleting member
+    //    string errorMessage = CheckConstraints(selectedTeamID, memberName);
+    //    if (!string.IsNullOrEmpty(errorMessage))
+    //    {
+    //        // Display the error message
+    //        Errors.Text = errorMessage;
+    //        return;
+    //    }
 
-        AddMember(selectedTeamID, memberName);
-        DisplayTeams();
-        MemberTextBox.Text = "";
+    //    AddMember(selectedTeamID, memberName);
+    //    DisplayTeams();
+    //    MemberTextBox.Text = "";
 
-    }
+    //}
 
-    protected void DeleteMemberButton_Click(object sender, EventArgs e)
-    {
-        // Retrieve the selected team's TeamID
-        string selectedTeamID = TeamListBox.SelectedValue;
+    //protected void DeleteMemberButton_Click(object sender, EventArgs e)
+    //{
+    //    // Retrieve the selected team's TeamID
+    //    string selectedTeamID = TeamListBox.SelectedValue;
 
-        // Get the member name to be deleted
-        string memberName = MemberToDeleteTextBox.Text.Trim();
+    //    // Get the member name to be deleted
+    //    string memberName = MemberToDeleteTextBox.Text.Trim();
 
-        // Check constraints before deleting member
-        string errorMessage = CheckConstraints(selectedTeamID, memberName);
-        if (!string.IsNullOrEmpty(errorMessage))
-        {
-            // Display the error message
-            Errors.Text = errorMessage;
-            return;
-        }
+    //    // Check constraints before deleting member
+    //    string errorMessage = CheckConstraints(selectedTeamID, memberName);
+    //    if (!string.IsNullOrEmpty(errorMessage))
+    //    {
+    //        // Display the error message
+    //        Errors.Text = errorMessage;
+    //        return;
+    //    }
 
-        // Delete member from the selected team
-        DeleteMember(selectedTeamID, memberName);
+    //    // Delete member from the selected team
+    //    DeleteMember(selectedTeamID, memberName);
 
-        // Refresh the team list
-        DisplayTeams();
+    //    // Refresh the team list
+    //    DisplayTeams();
 
-        // Clear the text box after deleting member
-        MemberToDeleteTextBox.Text = "";
-    }
+    //    // Clear the text box after deleting member
+    //    MemberToDeleteTextBox.Text = "";
+    //}
 
 
     private void DisplayTeams()
     {
         TeamListBox.Items.Clear();
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
 
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
             connection.Open();
-            string query = "SELECT TeamID, LeaderName, MemberName, EventName FROM Team ORDER BY EventName";
+            string query = "SELECT TeamID, LeaderName, EventName, Type, TeamName FROM Team ORDER BY EventName";
 
             using (SqlCommand command = new SqlCommand(query, connection))
             {
@@ -222,68 +222,69 @@ public partial class ManageTeams : System.Web.UI.Page
                 {
                     while (reader.Read())
                     {
-                        string teamDisplayText = string.Format("Team Name: {0}, Leader Name: {1}, Members: {2}, Event Name: {3}",
-                                                                reader["TeamName"], reader["LeaderName"], reader["MemberName"], reader["EventName"]);
+                        string teamDisplayText = string.Format("Team Name: {0}, Leader Name: {1}, Type: {2}, Event Name: {3}",
+                                                                reader["TeamName"], reader["LeaderName"], reader["Type"], reader["EventName"]);
 
                         ListItem listItem = new ListItem(teamDisplayText, reader["TeamID"].ToString());
                         TeamListBox.Items.Add(listItem);
                     }
                 }
             }
+
         }
     }
 
-    private void AddMember(string teamID, string memberName)
-    {
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+    //private void AddMember(string teamID, string memberName)
+    //{
+    //    string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
 
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
-            string query = "UPDATE Team SET MemberName = " +
-                           "CASE WHEN MemberName IS NULL THEN @MemberName " +
-                           "ELSE MemberName + ',' + @MemberName END " +
-                           "WHERE TeamID = @TeamID";
+    //    using (SqlConnection connection = new SqlConnection(connectionString))
+    //    {
+    //        connection.Open();
+    //        string query = "UPDATE Team SET MemberName = " +
+    //                       "CASE WHEN MemberName IS NULL THEN @MemberName " +
+    //                       "ELSE MemberName + ',' + @MemberName END " +
+    //                       "WHERE TeamID = @TeamID";
 
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@MemberName", memberName);
-                command.Parameters.AddWithValue("@TeamID", teamID);
-                command.ExecuteNonQuery();
-            }
-        }
-    }
+    //        using (SqlCommand command = new SqlCommand(query, connection))
+    //        {
+    //            command.Parameters.AddWithValue("@MemberName", memberName);
+    //            command.Parameters.AddWithValue("@TeamID", teamID);
+    //            command.ExecuteNonQuery();
+    //        }
+    //    }
+    //}
 
-    private void DeleteMember(string teamID, string memberName)
-    {
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+    //private void DeleteMember(string teamID, string memberName)
+    //{
+    //    string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
 
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
-            string query = @"
-                UPDATE Team
-                SET MemberName = 
-                    CASE 
-                        WHEN CHARINDEX(',' + @MemberName + ',', ',' + MemberName + ',') > 0 THEN 
-                            STUFF(MemberName, CHARINDEX(',' + @MemberName + ',', ',' + MemberName + ','), LEN(@MemberName) + 1, '') 
-                        ELSE 
-                            MemberName 
-                    END 
-                WHERE TeamID = @TeamID";
+    //    using (SqlConnection connection = new SqlConnection(connectionString))
+    //    {
+    //        connection.Open();
+    //        string query = @"
+    //            UPDATE Team
+    //            SET MemberName = 
+    //                CASE 
+    //                    WHEN CHARINDEX(',' + @MemberName + ',', ',' + MemberName + ',') > 0 THEN 
+    //                        STUFF(MemberName, CHARINDEX(',' + @MemberName + ',', ',' + MemberName + ','), LEN(@MemberName) + 1, '') 
+    //                    ELSE 
+    //                        MemberName 
+    //                END 
+    //            WHERE TeamID = @TeamID";
 
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@MemberName", memberName);
-                command.Parameters.AddWithValue("@TeamID", teamID);
-                command.ExecuteNonQuery();
-            }
-        }
-    }
+    //        using (SqlCommand command = new SqlCommand(query, connection))
+    //        {
+    //            command.Parameters.AddWithValue("@MemberName", memberName);
+    //            command.Parameters.AddWithValue("@TeamID", teamID);
+    //            command.ExecuteNonQuery();
+    //        }
+    //    }
+    //}
 
     private string CheckConstraints(string teamID, string memberName)
     {
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
 
         // Check if the member exists in the [User] table
         string userQuery = "SELECT COUNT(*) FROM [User] WHERE UserName = @UserName";
@@ -361,7 +362,50 @@ public partial class ManageTeams : System.Web.UI.Page
 
     protected void Back_Click(object sender, EventArgs e)
     {
-        Response.Redirect("~/Admin.aspx");
+        Response.Redirect("~/AdminDashboard.aspx");
+    }
+
+    private void DeleteTeam(string teamID)
+    {
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            // Delete team members associated with the team ID
+            string deleteTeamMembersQuery = "DELETE FROM TeamMembers WHERE TeamID = @TeamID";
+            using (SqlCommand deleteMembersCommand = new SqlCommand(deleteTeamMembersQuery, connection))
+            {
+                deleteMembersCommand.Parameters.AddWithValue("@TeamID", teamID);
+                deleteMembersCommand.ExecuteNonQuery();
+            }
+
+            // Delete the team itself
+            string deleteTeamQuery = "DELETE FROM Team WHERE TeamID = @TeamID";
+            using (SqlCommand deleteTeamCommand = new SqlCommand(deleteTeamQuery, connection))
+            {
+                deleteTeamCommand.Parameters.AddWithValue("@TeamID", teamID);
+                deleteTeamCommand.ExecuteNonQuery();
+            }
+        }
+    }
+
+
+    protected void DeleteTeamButton_Click(object sender, EventArgs e)
+    {
+        string selectedTeamID = TeamListBox.SelectedValue;
+
+        // Delete the entire selected team
+        DeleteTeam(selectedTeamID);
+
+        // Refresh the team list
+        DisplayTeams();
+    }
+
+    protected void AddTeamButton_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/RegisterTeam.aspx");
     }
 }
 

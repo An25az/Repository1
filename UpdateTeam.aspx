@@ -84,7 +84,7 @@
                 <asp:TextBox ID="MembersTextBox" runat="server" TextMode="MultiLine" Rows="5" CssClass="form-control"></asp:TextBox>
             </div>
             <asp:Button ID="UpdateTeamButton" runat="server" Text="Update Team" OnClick="UpdateTeamButton_Click" CssClass="btn btn-primary" />
-            <asp:Button ID="BackButton" runat="server" Text="Back to Admin Dashboard" OnClick="Back_Click" CssClass="btn btn-secondary" />
+            <asp:Button ID="BackButton" runat="server" Text="Back to Dashboard" OnClick="Back_Click" CssClass="btn btn-secondary" />
             <asp:Label ID="Errors" runat="server" CssClass="error-message"></asp:Label>
         </div>
     </form>

@@ -16,7 +16,7 @@ public partial class UpdateTeam : System.Web.UI.Page
     {
         try
         {
-            string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
             string query = "SELECT EventName FROM Events";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -51,7 +51,7 @@ public partial class UpdateTeam : System.Web.UI.Page
 
         try
         {
-            string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
             string query = "SELECT TeamID, LeaderName FROM Team WHERE EventName = @EventName";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -95,7 +95,7 @@ public partial class UpdateTeam : System.Web.UI.Page
     {
         try
         {
-            string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
             string query = "SELECT LeaderName FROM Team WHERE TeamID = @TeamID; " +
                            "SELECT MemberName FROM TeamMembers WHERE TeamID = @TeamID";
 
@@ -139,7 +139,7 @@ public partial class UpdateTeam : System.Web.UI.Page
 
         try
         {
-            string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
             string query = "SELECT MemberName FROM TeamMembers WHERE TeamID = @TeamID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -168,9 +168,76 @@ public partial class UpdateTeam : System.Web.UI.Page
 
     protected void UpdateTeamButton_Click(object sender, EventArgs e)
     {
+
         try
         {
-            string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
+
+            // Retrieve current user's type
+            string currentUserType = "";
+            string userName = Session["username"] as string;
+
+            if (!string.IsNullOrEmpty(userName))
+            {
+                // Connection string to your database
+                //string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
+
+                // SQL query to retrieve the user's type based on the provided UserName
+                string query = "SELECT Type FROM [User] WHERE UserName = @UserName";
+
+                // Establish connection and execute the query
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        // Add parameter for UserName
+                        command.Parameters.AddWithValue("@UserName", userName);
+
+                        connection.Open();
+                        // Execute the query
+                        object result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            currentUserType = result.ToString();
+                        }
+                    }
+                }
+            }
+
+            // Check if the current user is a student
+            if (currentUserType == "Student")
+            {
+                // Retrieve team leader from database
+                string teamLeader = "";
+                string teamID = TeamDropDown.SelectedValue;
+
+                string queryTeamLeader = "SELECT LeaderName FROM Team WHERE TeamID = @TeamID";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand command = new SqlCommand(queryTeamLeader, connection))
+                    {
+                        command.Parameters.AddWithValue("@TeamID", teamID);
+
+                        connection.Open();
+                        object result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            teamLeader = result.ToString();
+                        }
+                    }
+                }
+
+                // Check if the current user is the leader of the team being updated
+                if (teamLeader != userName)
+                {
+                    Errors.Text = "You are not authorized to update this team.";
+                    return; // Exit the method
+                }
+            }
+
+            // If the current user is an admin or the team leader, proceed with updating team details
+            //string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
             string updateLeaderQuery = "UPDATE Team SET LeaderName = @LeaderName WHERE TeamID = @TeamID";
             string deleteMembersQuery = "DELETE FROM TeamMembers WHERE TeamID = @TeamID";
             string insertMemberQuery = "INSERT INTO TeamMembers (TeamID, MemberName) VALUES (@TeamID, @MemberName)";
@@ -215,9 +282,112 @@ public partial class UpdateTeam : System.Web.UI.Page
         }
     }
 
+    //protected void UpdateTeamButton_Click(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
+    //        string updateLeaderQuery = "UPDATE Team SET LeaderName = @LeaderName WHERE TeamID = @TeamID";
+    //        string deleteMembersQuery = "DELETE FROM TeamMembers WHERE TeamID = @TeamID";
+    //        string insertMemberQuery = "INSERT INTO TeamMembers (TeamID, MemberName) VALUES (@TeamID, @MemberName)";
+
+    //        using (SqlConnection connection = new SqlConnection(connectionString))
+    //        {
+    //            connection.Open();
+
+    //            // Update the leader name
+    //            using (SqlCommand command = new SqlCommand(updateLeaderQuery, connection))
+    //            {
+    //                command.Parameters.AddWithValue("@LeaderName", LeaderNameTextBox.Text);
+    //                command.Parameters.AddWithValue("@TeamID", TeamDropDown.SelectedValue);
+    //                command.ExecuteNonQuery();
+    //            }
+
+    //            // Delete existing team members
+    //            using (SqlCommand command = new SqlCommand(deleteMembersQuery, connection))
+    //            {
+    //                command.Parameters.AddWithValue("@TeamID", TeamDropDown.SelectedValue);
+    //                command.ExecuteNonQuery();
+    //            }
+
+    //            // Insert updated team members
+    //            string[] members = MembersTextBox.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+    //            foreach (string member in members)
+    //            {
+    //                using (SqlCommand command = new SqlCommand(insertMemberQuery, connection))
+    //                {
+    //                    command.Parameters.AddWithValue("@TeamID", TeamDropDown.SelectedValue);
+    //                    command.Parameters.AddWithValue("@MemberName", member.Trim());
+    //                    command.ExecuteNonQuery();
+    //                }
+    //            }
+    //        }
+
+    //        Errors.Text = "Team details updated successfully!";
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Errors.Text = "Error updating team details: " + ex.Message;
+    //    }
+    //}
+
 
     protected void Back_Click(object sender, EventArgs e)
     {
-        Response.Redirect("~/AdminDashboard.aspx");
+        // Retrieve the current user's type from the [User] table using the provided UserName
+        string currentUserType = "";
+        string userName = Session["username"] as string;
+
+        if (!string.IsNullOrEmpty(userName))
+        {
+            // Connection string to your database
+            string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
+
+            // SQL query to retrieve the user's type based on the provided UserName
+            string query = "SELECT Type FROM [User] WHERE UserName = @UserName";
+
+            // Establish connection and execute the query
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Add parameter for UserName
+                    command.Parameters.AddWithValue("@UserName", userName);
+
+                    try
+                    {
+                        connection.Open();
+                        // Execute the query
+                        object result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            currentUserType = result.ToString();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle any exceptions, such as database connection error
+                        // Log the exception or display an error message
+                    }
+                }
+            }
+
+            // Check the user's type and redirect accordingly
+            if (currentUserType == "Student")
+            {
+                // Redirect to the user dashboard page
+                Response.Redirect("~/UserDashboard.aspx?username=" + userName);
+            }
+            else
+            {
+                // Redirect to the admin dashboard page
+                Response.Redirect("~/AdminDashboard.aspx");
+            }
+        }
+        else
+        {
+            // Handle case where username is not available
+            // Redirect to some error page or take appropriate action
+        }
     }
 }

@@ -40,7 +40,7 @@ public partial class Admin : System.Web.UI.Page
     protected void ViewTeams_Click(object sender, EventArgs e)
     {
         // Connect to the database
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True"; // Replace with your actual connection string
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True"; // Replace with your actual connection string
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
             connection.Open();

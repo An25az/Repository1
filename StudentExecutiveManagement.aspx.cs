@@ -15,7 +15,7 @@ public partial class StudentExecutiveManagement : System.Web.UI.Page
 
     protected void BindGridView()
     {
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
         string query = "SELECT StudentID, FullName, Category, Position FROM StudentExecutives";
 
         using (SqlConnection connection = new SqlConnection(connectionString))
@@ -106,7 +106,7 @@ public partial class StudentExecutiveManagement : System.Web.UI.Page
 
     private void UpdateStudentExecutive(int studentId, string fullName, string category, string position)
     {
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
         string query = "UPDATE StudentExecutives SET FullName = @FullName, Category = @Category, Position = @Position WHERE StudentID = @StudentID";
 
         using (SqlConnection connection = new SqlConnection(connectionString))
@@ -144,7 +144,7 @@ public partial class StudentExecutiveManagement : System.Web.UI.Page
     }
     private void DeleteStudentExecutive(int studentId)
     {
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
         string query = "DELETE FROM StudentExecutives WHERE StudentID = @StudentID";
 
         using (SqlConnection connection = new SqlConnection(connectionString))
@@ -164,7 +164,7 @@ public partial class StudentExecutiveManagement : System.Web.UI.Page
         
    
 
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
         string query = "INSERT INTO StudentExecutives (StudentID, FullName, Category, Position) VALUES (@StudentID, @FullName, @Category, @Position)";
 
         using (SqlConnection connection = new SqlConnection(connectionString))
@@ -186,7 +186,7 @@ public partial class StudentExecutiveManagement : System.Web.UI.Page
 
     private int GetNextStudentID()
     {
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
         string query = "SELECT MAX(StudentID) FROM StudentExecutives";
 
         using (SqlConnection connection = new SqlConnection(connectionString))

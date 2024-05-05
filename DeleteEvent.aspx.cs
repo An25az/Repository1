@@ -5,7 +5,7 @@ using System.Web.UI.WebControls;
 
 public partial class DeleteEventPage : Page
 {
-    string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+    string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
 
     protected void Page_Load(object sender, EventArgs e)
     {

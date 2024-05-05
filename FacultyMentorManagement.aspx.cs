@@ -15,7 +15,7 @@ public partial class FacultyMentorManagement : System.Web.UI.Page
 
     protected void BindGridView()
     {
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
         string query = "SELECT ID, UserName, Email FROM [User] WHERE [Type] = 'FacultyMentor'";
 
         using (SqlConnection connection = new SqlConnection(connectionString))
@@ -88,7 +88,7 @@ public partial class FacultyMentorManagement : System.Web.UI.Page
 
     private void AddUser(int userId, string userName, string email, string password)
     {
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
         string query = "INSERT INTO [User] (ID, UserName, Email, [Password], [Type]) VALUES (@UserID, @UserName, @Email, @Password, 'FacultyMentor')";
 
         using (SqlConnection connection = new SqlConnection(connectionString))
@@ -109,7 +109,7 @@ public partial class FacultyMentorManagement : System.Web.UI.Page
 
     private void UpdateUser(int userId, string userName, string email)
     {
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
         string query = "UPDATE [User] SET UserName = @UserName, Email = @Email WHERE ID = @UserID";
 
         using (SqlConnection connection = new SqlConnection(connectionString))
@@ -128,7 +128,7 @@ public partial class FacultyMentorManagement : System.Web.UI.Page
 
     private void DeleteUser(int userId)
     {
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
         string query = "DELETE FROM [User] WHERE ID = @UserID";
 
         using (SqlConnection connection = new SqlConnection(connectionString))
@@ -147,5 +147,10 @@ public partial class FacultyMentorManagement : System.Web.UI.Page
     {
         // Display success message
         ClientScript.RegisterStartupScript(this.GetType(), "alert", $"alert('{message}');", true);
+    }
+
+    protected void btnBack_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/AdminDashboard.aspx");
     }
 }

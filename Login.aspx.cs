@@ -14,7 +14,7 @@ public partial class Login : Page
         string username = UserName.Text;
         string password = Password.Text;
 
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
 
         using (SqlConnection con = new SqlConnection(connectionString))
         {
@@ -63,7 +63,8 @@ public partial class Login : Page
                     }
                     else if (type == "Sponser")
                     {
-                        Response.Redirect("~/SponserPackageSelection.aspx");
+                        Response.Redirect("SponserPackageSelection.aspx?param1=" + username);
+
                     }
                     else if (type == "FacultyMentor")
                     {

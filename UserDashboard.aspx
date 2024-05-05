@@ -90,6 +90,7 @@
                 <li><a href="Students.aspx?username=<%= Server.UrlEncode(lblLoggedInUser.Text) %>">Events</a></li>
                 <li><a href="RegisterTeam.aspx">Register Team </a></li>
                 <li><a href="EditProfile.aspx">Edit Profile</a></li>
+                <li><a href="Feedback.aspx?username=<%= Server.UrlEncode(lblLoggedInUser.Text) %>">Give Event Feedback</a></li>
                 <!-- Add more links as needed -->
             </ul>
             

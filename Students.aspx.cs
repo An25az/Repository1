@@ -25,7 +25,7 @@ public partial class Students : System.Web.UI.Page
     private bool IsTeamLeader(string username)
     {
         // Query the database to check if the user is listed as a team leader for any team
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
         string query = "SELECT COUNT(*) FROM Team WHERE LeaderName = @Username";
 
         // Create a SqlConnection and SqlCommand
@@ -49,7 +49,7 @@ public partial class Students : System.Web.UI.Page
     private void DisplayUpcomingEvents()
     {
         // Connection string to your database
-        string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
 
         // Query to retrieve the top 3 recent most events ordered by Time
         string query = "SELECT TOP 3 EventName, Price, MinTeamCount, MaxTeamCount, Time " +
@@ -144,10 +144,10 @@ public partial class Students : System.Web.UI.Page
         // Retrieve the username from the query string
         string username = Request.QueryString["username"];
 
-        // Redirect to UpdateTeam.aspx with username as a query parameter
+        //Redirect to UpdateTeam.aspx with username as a query parameter
         Response.Redirect("~/UpdateTeam.aspx?username=" + Server.UrlEncode(username));
     }
-
+    
     protected void BackToDashboard_Click(object sender, EventArgs e)
     {
         // Redirect to UserDashboard.aspx

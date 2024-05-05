@@ -2,10 +2,9 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
     <title>Sponsorship Packages Selection</title>
     <style>
         body {
@@ -26,23 +25,6 @@
             color: #007bff;
             text-align: center;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #007bff;
-            color: #fff;
-        }
-        tr:hover {
-            background-color: #f2f2f2;
-        }
         .select-btn {
             background-color: #007bff;
             color: #fff;
@@ -54,35 +36,63 @@
         .select-btn:hover {
             background-color: #0056b3;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
         <div class="container">
             <h1>Sponsorship Packages Selection</h1>
-            <asp:GridView ID="gvSponsorshipPackages" runat="server" AutoGenerateColumns="False" OnRowCommand="gvSponsorshipPackages_RowCommand">
-                <Columns>
-                    <asp:BoundField DataField="PackageID" HeaderText="Package ID" />
-                    <asp:BoundField DataField="PackageName" HeaderText="Package Name" />
-                    <asp:BoundField DataField="Benefits" HeaderText="Benefits" />
-                    <asp:BoundField DataField="Cost" HeaderText="Cost" />
-                    <asp:TemplateField HeaderText="Select">
-                        <ItemTemplate>
-                            <asp:Button ID="btnSelectPackage" runat="server" Text="Select" CommandName="SelectPackage" CommandArgument='<%# Eval("PackageID") %>' CssClass="select-btn" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                </Columns>
-            </asp:GridView>
+            <%--<div>
+                <label for="txtSponsorName">Sponsor Name:</label>
+                <asp:TextBox ID="txtSponsorName" runat="server"></asp:TextBox>
+            </div>--%>
             <br />
-            <asp:Label ID="lblSelectedPackage" runat="server" Visible="false"></asp:Label>
-            <p id="selected-package-info" style="display: none;"></p>
+            <div>
+                <h2>Select a Package:</h2>
+                <asp:Button ID="btnBronze" runat="server" Text="Bronze Package" OnClick="SelectPackage" CommandArgument="Bronze" CssClass="select-btn" />
+                <asp:Button ID="btnSilver" runat="server" Text="Silver Package" OnClick="SelectPackage" CommandArgument="Silver" CssClass="select-btn" />
+                <asp:Button ID="btnGold" runat="server" Text="Gold Package" OnClick="SelectPackage" CommandArgument="Gold" CssClass="select-btn" />
+            </div>
+            <br />
+            <asp:Label ID="lblSuccessMessage" runat="server" Visible="false" Text="Success message will appear here"></asp:Label>
+            
+            <!-- Grid to display package information -->
+            <table id="packageGrid" runat="server">
+                <tr>
+                    <th>Package</th>
+                    <th>Description</th>
+                    <th>Benefits</th>
+                </tr>
+                <tr>
+                    <td>Bronze</td>
+                    <td>Basic package</td>
+                    <td>Logo on event website</td>
+                </tr>
+                <tr>
+                    <td>Silver</td>
+                    <td>Standard package</td>
+                    <td>Logo on event website, social media mentions</td>
+                </tr>
+                <tr>
+                    <td>Gold</td>
+                    <td>Premium package</td>
+                    <td>Logo on event website, social media mentions, booth at event</td>
+                </tr>
+            </table>
         </div>
     </form>
-    <!-- Define the JavaScript function to display the message -->
-    <script>
-        function showMessage(message) {
-            alert(message);
-        }
-    </script>
 </body>
 </html>

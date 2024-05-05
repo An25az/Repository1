@@ -5,7 +5,7 @@ using System.Web.UI;
 public partial class EditProfile : Page
 {
     // Connection string
-    string connectionString = "Data Source=HAMZASHAHID\\SQLEXPRESS;Initial Catalog=SE;Integrated Security=True";
+    string connectionString = "Data Source=DESKTOP-EO0CMVG;Initial Catalog=SE;Integrated Security=True";
 
     protected void Page_Load(object sender, EventArgs e)
     {
